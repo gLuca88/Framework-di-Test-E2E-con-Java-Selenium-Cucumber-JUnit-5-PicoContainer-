@@ -1,0 +1,37 @@
+# --- IDE ---
+# Eclipse
+.classpath
+.project
+.settings/
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# --- Build / Dipendenze ---
+target/
+out/
+bin/
+
+# --- File temporanei ---
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+
+# --- Configurazioni locali ---
+*.properties
+config/
+credentials.json
+
+# --- Report e Screenshot ---
+reports/
+extent-reports/
+allure-results/
+allure-report/
+test-output/
+screenshots/
+logs/
+
+# --- File sistema operativo ---
+ehthumbs.db
