@@ -4,7 +4,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,9 +18,9 @@ import gianluca.com.configurationReportScreen.LogConfigurator;
 import gianluca.com.configurationReportScreen.PathManager;
 import gianluca.com.configurationReportScreen.ReportManager;
 import gianluca.com.configurationReportScreen.ScreenshotManager;
-import gianluca.com.model.LoginData;
+
 import gianluca.com.utilis.ConfigReader;
-import gianluca.com.utilis.JsonReader;
+
 import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
 import io.cucumber.java.AfterStep;
@@ -106,7 +105,7 @@ public class Hooks extends BaseStepDefinition {
 			ReportManager.test().warning("Errore teardown/allegato screenshot: " + e.getMessage());
 			log.warn("Problema in tearDown per {}: {}", scenario.getName(), e.getMessage());
 		} finally {
-			
+
 			context.getScenarioContext().clear();
 			context.getScenarioContext().clear();
 			ReportManager.endTest();
@@ -114,8 +113,7 @@ public class Hooks extends BaseStepDefinition {
 				driver.quit();
 			log.info("[After Scenario] Chiudo browser per: {}", scenario.getName());
 		}
-		
-		
+
 	}
 
 	@BeforeStep
@@ -134,21 +132,6 @@ public class Hooks extends BaseStepDefinition {
 
 	private static String now() {
 		return LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmmss_SSS"));
-	}
-
-	@Before(value = "@login", order = 1)//dati scenario login
-	public void prepareLoginData() {
-		String jsonPath = ConfigReader.getProperty("login.valid.json");
-		List<LoginData> users = JsonReader.readList(jsonPath, LoginData.class);
-		if (users == null || users.isEmpty()) {
-			throw new IllegalStateException("login.valid.json vuoto o non trovato: " + jsonPath);
-		}
-		LoginData user = users.get(0);
-
-		// NEW: usa ScenarioContext
-		context.getScenarioContext().set(ContextKey.LOGIN_USER, user);
-
-		log.info("[Data] LoginUser caricato da JSON: {}", user);
 	}
 
 }

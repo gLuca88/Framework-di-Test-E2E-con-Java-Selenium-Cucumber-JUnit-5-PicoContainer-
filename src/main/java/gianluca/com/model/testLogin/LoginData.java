@@ -1,4 +1,4 @@
-package gianluca.com.model;
+package gianluca.com.model.testLogin;
 
 public class LoginData {
 	private String email;

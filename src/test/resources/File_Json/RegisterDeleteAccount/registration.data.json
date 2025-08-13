@@ -1,0 +1,21 @@
+[
+  {
+    "name": "tester gianluca",
+    "email": "testergianluca@example.com",
+    "password": "Password2!",
+    "birthDate": { "day": "10", "month": "12", "year": "1995" },
+    "preferences": { "subscribeNewsletter": true, "receiveOffers": true },
+    "address": {
+      "firstName": "Test",
+      "lastName": "User",
+      "company": "MyCompany",
+      "address1": "Via Roma 1",
+      "address2": "Scala A",
+      "country": "United States",
+      "state": "Lazio",
+      "city": "Roma",
+      "zip": "00100",
+      "phone": "3331234567"
+    }
+  }
+]

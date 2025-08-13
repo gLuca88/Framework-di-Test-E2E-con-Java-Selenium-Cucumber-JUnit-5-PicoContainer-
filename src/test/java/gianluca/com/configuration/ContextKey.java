@@ -1,6 +1,5 @@
 package gianluca.com.configuration;
 
 public enum ContextKey {
-	PRODUCT_DATA,
-	LOGIN_USER
+	LOGIN_USER, REGISTRATION_DATA, REGISTRATION_UI_TEXT
 }
