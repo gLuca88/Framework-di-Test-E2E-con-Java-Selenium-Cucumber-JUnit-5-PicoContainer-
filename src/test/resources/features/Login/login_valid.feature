@@ -14,7 +14,7 @@ Feature: Login with valid credentials
     And the user enters "<email>" and "<password>" as invalid credentials
     Then the user should see the error message "<errorMessage>"
 
-    Examples:
+    Examples:@loginTests
       | email                       | password                   | errorMessage                         |
       | automationtest@mail.com     | passwordErrata             | Your email or password is incorrect! |
       | emailnonregistrata@fake.com | password123                | Your email or password is incorrect! |

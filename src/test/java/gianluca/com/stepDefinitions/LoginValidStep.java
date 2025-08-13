@@ -40,6 +40,7 @@ public class LoginValidStep extends BaseStepDefinition {
 	public void clickLoginButton() {
 		logger.info("Clicking on the Signup/Login button...");
 		login = home.clickButtonLogin();
+		context.setLoginPage(login);
 	}
 
 	@And("the user enters valid email and password and clicks the login button")

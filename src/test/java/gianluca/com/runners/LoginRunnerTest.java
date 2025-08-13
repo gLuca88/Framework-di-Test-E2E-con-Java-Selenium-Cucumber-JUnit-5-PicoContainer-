@@ -8,12 +8,16 @@ import static io.cucumber.junit.platform.engine.Constants.FILTER_TAGS_PROPERTY_N
 
 @Suite
 @IncludeEngines("cucumber")
-@SelectClasspathResource("features")
+@SelectClasspathResource("features/Login")
 @ConfigurationParameter(key = "cucumber.glue", value = "gianluca.com.stepDefinitions,gianluca.com.configuration")
 @ConfigurationParameter(key = "cucumber.plugin", value =
     "pretty, html:target/cucumber-report.html, json:target/cucumber.json")
 @ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = "@loginTests")
-public class LoginRunner {
+public class LoginRunnerTest {
 }
 
 //automationtest@mail.com   gianluca
+/*
+# Esegue solo il LoginRunner
+mvn clean test -Dtest=LoginRunnerTest
+*/

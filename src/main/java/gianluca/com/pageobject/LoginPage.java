@@ -15,6 +15,10 @@ public class LoginPage extends SeleniumWrapper {
 	private By inputPassword = By.xpath("//div[@class='login-form']//input[@name='password']");
 	private By loginButton = By.xpath("//div[@class='login-form']//button[@class='btn btn-default']");
 	private By containerMexError = By.cssSelector("div.login-form p");
+	private By contanerMexRegisterUser = By.cssSelector(".signup-form h2");
+	private By inputNameRegister = By.xpath("//div[@class='signup-form']//input[@name='name']");
+	private By inputEmailRegister = By.xpath("//div[@class='signup-form']//input[@name='email']");
+	private By buttonRegister = By.cssSelector(".signup-form button");
 
 	public void insertCredential(String user, String password) {
 		type(inputEmail, user);
@@ -31,4 +35,22 @@ public class LoginPage extends SeleniumWrapper {
 		return waitForUrlToContain("login", 5);
 	}
 
+	public boolean messageVerificationRegisterUser() {
+		return isElementVisible(contanerMexRegisterUser);
+	}
+
+	public String getTextContanerRegisterUser() {
+		return getText(contanerMexRegisterUser);
+	}
+
+	public void registrationDataEntry(String name, String email) {
+		type(inputNameRegister, name);
+		type(inputEmailRegister, email);
+	}
+
+	public RegisterPage clickRegisterSubmit() {
+		RegisterPage registration = new RegisterPage(getDriver());
+		click(buttonRegister);
+		return registration;
+	}
 }

@@ -1,6 +1,7 @@
 package gianluca.com;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -111,6 +112,14 @@ public class SeleniumWrapper {
 	public void scrollIntoView(WebDriver driver, WebElement element) {
 		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center', inline:'nearest'});",
 				element);
+	}
+	
+	public List<WebElement> waitForElementsPresent(By locator) {
+	    try {
+	        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+	    } catch (TimeoutException e) {
+	        return Collections.emptyList();
+	    }
 	}
 
 }
