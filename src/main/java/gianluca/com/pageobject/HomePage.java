@@ -29,7 +29,10 @@ public class HomePage extends SeleniumWrapper {
 
 	public LoginPage clickButtonLogin() {
 		LoginPage login = new LoginPage(getDriver());
-		click(buttonLogin);
+		if (isElementVisibleAndClickable(buttonLogin)) {
+			click(buttonLogin);
+		}
+
 		return login;
 	}
 
@@ -43,7 +46,7 @@ public class HomePage extends SeleniumWrapper {
 	}
 
 	public void clickAccept() {
-		if (isElementPresent(buttonAcconsento)) {
+		if (isElementVisibleAndClickable(buttonAcconsento)) {
 			click(buttonAcconsento);
 		}
 	}
