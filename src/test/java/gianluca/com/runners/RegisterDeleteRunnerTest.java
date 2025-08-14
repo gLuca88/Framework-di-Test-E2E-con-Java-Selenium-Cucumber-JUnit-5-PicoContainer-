@@ -15,7 +15,7 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "gianluca.com.stepDefinitions,gianluca.com.configuration")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty, html:target/cucumber-report.html, json:target/cucumber.json")
 // esegue SOLO gli scenari/tag con @register
-@ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = "@register")
+@ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = "@registration")
 public class RegisterDeleteRunnerTest {
 }
 /*

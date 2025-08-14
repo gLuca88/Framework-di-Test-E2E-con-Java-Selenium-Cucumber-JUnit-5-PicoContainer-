@@ -14,7 +14,7 @@ import gianluca.com.configuration.TestContext;
 import gianluca.com.model.testLogin.LoginData;
 import gianluca.com.pageobject.HomePage;
 import gianluca.com.pageobject.LoginPage;
-import io.cucumber.java.Before;
+
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -26,26 +26,21 @@ public class LoginValidStep extends BaseStepDefinition {
 
 	private HomePage home;
 	private LoginPage login;
-
-	// ✅ “stile login”: campo scenario-scoped, valorizzato in @Before
 	private LoginData user;
 
 	public LoginValidStep(TestContext context) {
 		super(context);
 	}
 
-	// Carico l’utente dal ScenarioContext DOPO l’hook che legge il JSON (@login,
-	// order=1)
-	@Before(value = "@login", order = 2)
-	public void cacheLoginUserFromContext() {
-		this.user = context.getScenarioContext().get(ContextKey.LOGIN_USER, LoginData.class);
-		if (this.user == null) {
-			throw new IllegalStateException("LOGIN_USER mancante in ScenarioContext. Verifica l'hook @Before @login.");
+	private LoginData user() {
+		if (user == null) {
+			// prende l’istanza caricata dall’@Before @login e la mette in cache
+			user = context.getScenarioContext().require(ContextKey.LOGIN_USER, LoginData.class);
 		}
-		logger.info("[Cache] LOGIN_USER caricato nello step: {}", user.getEmail());
+		return user; // dalle chiamate successive ritorna sempre la stessa istanza
 	}
+	
 
-	// Helpers per evitare NPE
 	private HomePage hp() {
 		if (home == null)
 			home = context.getHomePage();
@@ -79,6 +74,7 @@ public class LoginValidStep extends BaseStepDefinition {
 
 	@And("the user enters valid email and password and clicks the login button")
 	public void insertCredential() {
+		LoginData user = user();
 		assertNotNull(user, "Login user not found in scenario context");
 		logger.info("Entering credentials for user: {}", user.getEmail());
 		lp().insertCredential(user.getEmail(), user.getPassword());
@@ -123,6 +119,8 @@ public class LoginValidStep extends BaseStepDefinition {
 
 	@Then("the user should be redirected to the login page and the user info should not be visible")
 	public void verifyTheLoggerButtonAndUrl() {
+
+		LoginData user = user();// usa la cache, non ricrea nulla
 		logger.info("Check that the logged-in user container is no longer visible after logout");
 		boolean containerVisible = hp().verifyContainerLoggerVisibility();
 		assertFalse(containerVisible, "User container should not be visible after logout");

@@ -1,4 +1,4 @@
-@register
+@registration
 Feature: New user registration and account deletion
  
 Background:

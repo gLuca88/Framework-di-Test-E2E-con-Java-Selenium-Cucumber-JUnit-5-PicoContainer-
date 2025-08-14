@@ -1,0 +1,7 @@
+[
+  {
+    "name": "gianluca",
+    "email": "automationtest@mail.com",
+    "expectedError": "Email Address already exist!"
+  }
+]

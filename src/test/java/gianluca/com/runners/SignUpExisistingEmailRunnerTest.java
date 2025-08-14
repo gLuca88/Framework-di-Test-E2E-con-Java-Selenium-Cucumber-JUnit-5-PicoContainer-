@@ -17,3 +17,4 @@ import org.junit.platform.suite.api.Suite;
 public class SignUpExisistingEmailRunnerTest {
 
 }
+//mvn clean test -Dtest=SignUpExisistingEmailRunnerTest

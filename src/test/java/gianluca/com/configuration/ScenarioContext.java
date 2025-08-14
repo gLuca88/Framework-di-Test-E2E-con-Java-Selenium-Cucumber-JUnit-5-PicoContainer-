@@ -1,25 +1,48 @@
 package gianluca.com.configuration;
 
-import java.util.EnumMap;
+
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class ScenarioContext{
-	private final Map<ContextKey, Object> data = new EnumMap<>(ContextKey.class);
+public class ScenarioContext {
 
-	public <T> void set(ContextKey key, T value) {
-		data.put(key, value);
-	}
+    private final Map<ContextKey, Object> store = new ConcurrentHashMap<>();
 
-	public <T> T get(ContextKey key, Class<T> type) {
-		Object v = data.get(key);
-		return type.cast(v);
-	}
+    public <T> void set(ContextKey key, T value) {
+        Objects.requireNonNull(key, "key");
+        if (value == null) store.remove(key);
+        else store.put(key, value);
+    }
 
-	public boolean has(ContextKey key) {
-		return data.containsKey(key);
-	}
+    public <T> T get(ContextKey key, Class<T> type) {
+        Objects.requireNonNull(key, "key");
+        Object v = store.get(key);
+        if (v == null) return null;
+        if (!type.isInstance(v)) {
+            throw new ClassCastException("Value for " + key + " is " +
+                v.getClass().getName() + ", expected " + type.getName());
+        }
+        return type.cast(v);
+    }
 
-	public void clear() {
-		data.clear();
-	}
+    /** Richiede il valore; se assente lancia IllegalStateException con chiavi presenti. */
+    public <T> T require(ContextKey key, Class<T> type) {
+        Objects.requireNonNull(key, "key");
+        Object v = store.get(key);
+        if (v == null) {
+            throw new IllegalStateException(key + " missing in ScenarioContext. Present keys=" + store.keySet());
+        }
+        if (!type.isInstance(v)) {
+            throw new ClassCastException("Value for " + key + " is " +
+                v.getClass().getName() + ", expected " + type.getName());
+        }
+        return type.cast(v);
+    }
+
+    public boolean has(ContextKey key) { return store.containsKey(key); }
+
+    public void remove(ContextKey key) { store.remove(key); }
+
+    public void clear() { store.clear(); }
 }

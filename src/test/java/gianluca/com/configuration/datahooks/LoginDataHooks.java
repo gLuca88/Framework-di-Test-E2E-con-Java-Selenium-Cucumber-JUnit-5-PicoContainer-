@@ -35,4 +35,6 @@ public class LoginDataHooks {
 
 		log.info("[Data] LoginUser caricato da JSON: {}", user);
 	}
+    
+    
 }

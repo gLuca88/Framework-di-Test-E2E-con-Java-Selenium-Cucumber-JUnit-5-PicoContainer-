@@ -20,28 +20,28 @@ public class RegisterDataHooks {
 		this.context = context;
 	}
 
-	@Before(value = "@register", order = 1)
-	public void prepareAccountData() {
-		String regPath = ConfigReader.getProperty("registration.data.json");
-		String uiPath = ConfigReader.getProperty("registration.ui.json");
+	@Before(value = "@registration", order = 2)
+	public void loadRegistrationData() {
+	    String dataPath = ConfigReader.getProperty("registration.data.json"); // es: /testdata/registration_data.json
+	    String uiPath   = ConfigReader.getProperty("registration.ui.json");   // es: /testdata/registration_ui.json
 
-		List<RegistrationData> regs = JsonReader.readList(regPath, RegistrationData.class);
-		if (regs == null || regs.isEmpty()) {
-			throw new IllegalStateException("registration.data.json vuoto o non trovato: " + regPath);
-		}
-		RegistrationData reg = regs.get(0);
+	    List<RegistrationData> list = JsonReader.readList(dataPath, RegistrationData.class);
+	    if (list == null || list.isEmpty()) {
+	        throw new IllegalStateException("registration_data.json empty or not found: " + dataPath);
+	    }
+	    RegistrationData data = list.get(0);
 
-		List<RegistrationUiText> uis = JsonReader.readList(uiPath, RegistrationUiText.class);
-		if (uis == null || uis.isEmpty()) {
-			throw new IllegalStateException("registration.ui.json vuoto o non trovato: " + uiPath);
-		}
-		RegistrationUiText ui = uis.get(0);
+	    List<RegistrationUiText> uiList = JsonReader.readList(uiPath, RegistrationUiText.class);
+	    if (uiList == null || uiList.isEmpty()) {
+	        throw new IllegalStateException("registration_ui.json empty or not found: " + uiPath);
+	    }
+	    RegistrationUiText ui = uiList.get(0);
 
-		context.getScenarioContext().set(ContextKey.REGISTRATION_DATA, reg);
-		context.getScenarioContext().set(ContextKey.REGISTRATION_UI_TEXT, ui);
+	    context.getScenarioContext().set(ContextKey.REGISTRATION_DATA, data);
+	    context.getScenarioContext().set(ContextKey.REGISTRATION_UI_TEXT, ui);
 
-		log.info("[Data] RegistrationData da JSON: {}", reg);
-		log.info("[Data] RegistrationUiText da JSON: {}", ui);
+	    log.info("[Hook@registration] REGISTRATION_DATA set: email={}, name={}", data.getEmail(), data.getName());
+	    log.info("[Hook@registration] REGISTRATION_UI_TEXT set: {}", ui.getNewUserSignupMessage());
 	}
 
 }
