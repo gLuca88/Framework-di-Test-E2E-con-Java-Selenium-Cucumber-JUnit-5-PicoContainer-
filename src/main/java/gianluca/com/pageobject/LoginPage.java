@@ -19,6 +19,7 @@ public class LoginPage extends SeleniumWrapper {
 	private By inputNameRegister = By.xpath("//div[@class='signup-form']//input[@name='name']");
 	private By inputEmailRegister = By.xpath("//div[@class='signup-form']//input[@name='email']");
 	private By buttonRegister = By.cssSelector(".signup-form button");
+	private By mexErrorRegister = By.cssSelector("div.signup-form p");
 
 	public void insertCredential(String user, String password) {
 		type(inputEmail, user);
@@ -52,5 +53,10 @@ public class LoginPage extends SeleniumWrapper {
 		RegisterPage registration = new RegisterPage(getDriver());
 		click(buttonRegister);
 		return registration;
+	}
+
+	public String getTextMexErrorRegister() {
+
+		return getText(mexErrorRegister);
 	}
 }

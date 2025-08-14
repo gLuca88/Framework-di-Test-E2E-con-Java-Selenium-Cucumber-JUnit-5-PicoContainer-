@@ -11,9 +11,15 @@ public class TestContext {
 	private final ScenarioContext scenarioContext = new ScenarioContext();
 
 	private HomePage homePage;
-	private LoginPage loginPage; 
+	private LoginPage loginPage;
 
 	public LoginPage getLoginPage() {
+
+		if (loginPage == null) {
+			if (driver == null)
+				throw new IllegalStateException("Driver null in TestContext");
+			loginPage = new LoginPage(driver);
+		}
 		return loginPage;
 	}
 
