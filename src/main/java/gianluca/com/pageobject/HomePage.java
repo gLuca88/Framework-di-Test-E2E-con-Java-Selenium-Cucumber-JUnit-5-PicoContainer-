@@ -13,7 +13,7 @@ public class HomePage extends SeleniumWrapper {
 	}
 
 	private final String url = "https://automationexercise.com/";
-	private final By buttonLogin = By.xpath("//a[text()=' Signup / Login']");
+	private final By buttonLogin = By.xpath("//a[normalize-space(text())='Signup / Login']");
 	private final By buttonLogOut = By.xpath("//a[text()=' Logout']");
 	private final By buttonDeleteAccount = By.xpath("//a[text()=' Delete Account']");
 	private final By buttonAcconsento = By.xpath("//button[@class='fc-button fc-cta-consent fc-primary-button']");
