@@ -14,13 +14,14 @@ public class HomePage extends SeleniumWrapper {
 
 	private final String url = "https://automationexercise.com/";
 	private final By buttonLogin = By.xpath("//a[normalize-space(text())='Signup / Login']");
-	private final By buttonLogOut = By.xpath("//a[text()=' Logout']");
-	private final By buttonDeleteAccount = By.xpath("//a[text()=' Delete Account']");
+	private final By buttonLogOut = By.xpath("//a[normalize-space(text())='Logout']");
+	private final By buttonDeleteAccount = By.xpath("//a[normalize-space(text())='Delete Account']");
 	private final By buttonAcconsento = By.xpath("//button[@class='fc-button fc-cta-consent fc-primary-button']");
 	private final By userLoggerContainer = By.xpath("(//div[@class='shop-menu pull-right']//a)[10]");
 	private final By containerLogo = By.cssSelector(".logo");
 	private final By conatinerMex = UiLocators.Common.CONTAINER_MSG;
 	private final By continueAfterDelete = UiLocators.Common.BUTTON_CONTINUE;
+	private final By buttonContactUs = By.xpath("//a[@href='/contact_us']");
 
 	public HomePage navigateHomePage() {
 		navigateTo(url);
@@ -78,5 +79,11 @@ public class HomePage extends SeleniumWrapper {
 
 	public void clickButtonContinue() {
 		click(continueAfterDelete);
+	}
+
+	public PageContacts clickContactUs() {
+		PageContacts contacts = new PageContacts(getDriver());
+		click(buttonContactUs);
+		return contacts;
 	}
 }

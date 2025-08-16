@@ -1,0 +1,11 @@
+[
+  {
+    "messageExpected": "Get In Touch",
+    "name": "Gianluca QA",
+    "email": "gianluca@example.com",
+    "subject": "Info request",
+    "message": "Hello, this is a test message.",
+    "filePath": "src/test/resources/File_Json/Contacts/sample.txt",
+	"messageExpectedAfetrConfirm":"Success! Your details have been submitted successfully."
+  }
+]

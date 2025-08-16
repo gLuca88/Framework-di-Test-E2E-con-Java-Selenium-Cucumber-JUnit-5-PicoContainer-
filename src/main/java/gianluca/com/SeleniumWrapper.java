@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -113,13 +114,19 @@ public class SeleniumWrapper {
 		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center', inline:'nearest'});",
 				element);
 	}
-	
+
 	public List<WebElement> waitForElementsPresent(By locator) {
-	    try {
-	        return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
-	    } catch (TimeoutException e) {
-	        return Collections.emptyList();
-	    }
+		try {
+			return wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+		} catch (TimeoutException e) {
+			return Collections.emptyList();
+		}
+	}
+
+	public void acceptAlert() {
+		Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+		System.out.println("Alert text: " + alert.getText());
+		alert.accept();
 	}
 
 }
