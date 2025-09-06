@@ -19,7 +19,7 @@ import gianluca.com.configurationReportScreen.PathManager;
 import gianluca.com.configurationReportScreen.ReportManager;
 import gianluca.com.configurationReportScreen.ScreenshotManager;
 
-import gianluca.com.utilis.ConfigReader;
+import gianluca.com.ConfigReader;
 
 import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
@@ -106,7 +106,6 @@ public class Hooks extends BaseStepDefinition {
 			log.warn("Problema in tearDown per {}: {}", scenario.getName(), e.getMessage());
 		} finally {
 
-			context.getScenarioContext().clear();
 			context.getScenarioContext().clear();
 			ReportManager.endTest();
 			if (driver != null)

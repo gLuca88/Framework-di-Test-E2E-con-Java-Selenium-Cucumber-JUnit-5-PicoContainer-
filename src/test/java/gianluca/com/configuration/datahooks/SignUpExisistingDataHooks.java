@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import gianluca.com.configuration.ContextKey;
 import gianluca.com.configuration.TestContext;
 import gianluca.com.model.TestRegistrerDelete.SignupData;
-import gianluca.com.utilis.ConfigReader;
+import gianluca.com.ConfigReader;
 import gianluca.com.utilis.JsonReader;
 import io.cucumber.java.Before;
 
