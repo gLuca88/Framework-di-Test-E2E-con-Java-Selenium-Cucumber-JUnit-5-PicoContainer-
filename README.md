@@ -85,6 +85,7 @@ mvn clean test -Dtest=ContactUsFormSubmissionRunnerTest
 mvn clean test -Dtest=LoginRunnerTest
 mvn clean test -Dtest=RegisterDeleteRunnerTest
 mvn clean test -Dtest=SignUpExisistingEmailRunnerTest
+mvn clean test -Dtest=RunAllTests -Dbrowser=edge -Dheadless=true -Dtimeout=30
 ```
 
 Esecuzione **suite completa**:
@@ -101,9 +102,14 @@ La configurazione del **parallelismo** è gestita tramite file
 ## Configurazione (`config.properties`)
 
 ``` properties
+# Browser di default (chrome | firefox | edge)
 browser=chrome
-timeOut=5
-report.baseDir=reports
+
+# Modalità headless (true | false)
+headless=false
+
+# Timeout espliciti (secondi)
+timeout=5
 
 # path json
 login.valid.json=File_Json/Login/loginValid.json
