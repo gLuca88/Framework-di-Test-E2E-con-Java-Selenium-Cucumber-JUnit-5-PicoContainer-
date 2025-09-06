@@ -6,7 +6,7 @@ import gianluca.com.configuration.ContextKey;
 import gianluca.com.configuration.TestContext;
 import gianluca.com.model.TestRegistrerDelete.RegistrationData;
 import gianluca.com.model.TestRegistrerDelete.RegistrationUiText;
-import gianluca.com.utilis.ConfigReader;
+import gianluca.com.ConfigReader;
 import gianluca.com.utilis.JsonReader;
 import io.cucumber.java.Before;
 import org.apache.logging.log4j.LogManager;
