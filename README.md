@@ -85,7 +85,9 @@ mvn clean test -Dtest=ContactUsFormSubmissionRunnerTest
 mvn clean test -Dtest=LoginRunnerTest
 mvn clean test -Dtest=RegisterDeleteRunnerTest
 mvn clean test -Dtest=SignUpExisistingEmailRunnerTest
-mvn clean test -Dtest=RunAllTests -Dbrowser=edge -Dheadless=true -Dtimeout=30
+mvn clean test -Dtest=RunAllTests -Dbrowser=edge -Dheadless=true
+mvn clean test -Dtest=TestCasePageRunnerTest
+
 ```
 
 Esecuzione **suite completa**:
@@ -130,7 +132,8 @@ contacts.data.json=File_Json/Contacts/contact.json
 -   **Login (successo e fallimento con Examples)**
 -   **Logout**
 -   **Signup con Email Esistente**
--   **Contact Us Form (con upload file)** ✅
+-   **Contact Us Form (con upload file)** 
+-   **Navigazione Test Cases Page**
 ------------------------------------------------------------------------
 
 ## Reporting

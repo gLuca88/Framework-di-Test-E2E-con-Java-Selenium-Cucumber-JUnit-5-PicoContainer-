@@ -41,9 +41,14 @@ public class ConfigReader {
 	public static String getProperty(String key) {
 		return prop.getProperty(key);
 	}
+
 	public static boolean isHeadless() {
-		String value=System.getProperty("headless",prop.getProperty("headless","false"));
+		String value = System.getProperty("headless", prop.getProperty("headless", "false"));
 		return Boolean.parseBoolean(value);
+	}
+
+	public static String getUrl() {
+		return prop.getProperty("url");
 	}
 
 }

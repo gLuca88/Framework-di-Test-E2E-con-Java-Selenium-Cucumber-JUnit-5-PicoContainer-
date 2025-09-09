@@ -32,7 +32,7 @@ public class ContactsHooks {
 		}
 		ContactData setDati = dati.get(0);
 
-		// NEW: usa ScenarioContext
+		// usa ScenarioContext
 		context.getScenarioContext().set(ContextKey.CONTACTS_DATA, setDati);
 
 		log.info("[Data] LoginUser caricato da JSON: {}", setDati);

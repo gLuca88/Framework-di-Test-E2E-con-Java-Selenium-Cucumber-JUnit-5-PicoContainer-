@@ -9,24 +9,13 @@ public class ScenarioContext {
 
     private final Map<ContextKey, Object> store = new ConcurrentHashMap<>();
 
-    public <T> void set(ContextKey key, T value) {
+    public <T> void set(ContextKey key, T value) { //datahooks
         Objects.requireNonNull(key, "key");
         if (value == null) store.remove(key);
         else store.put(key, value);
     }
 
-    public <T> T get(ContextKey key, Class<T> type) {
-        Objects.requireNonNull(key, "key");
-        Object v = store.get(key);
-        if (v == null) return null;
-        if (!type.isInstance(v)) {
-            throw new ClassCastException("Value for " + key + " is " +
-                v.getClass().getName() + ", expected " + type.getName());
-        }
-        return type.cast(v);
-    }
-
-    /** Richiede il valore; se assente lancia IllegalStateException con chiavi presenti. */
+    /** Richiede il valore; se assente lancia IllegalStateException con chiavi presenti. */ //steps
     public <T> T require(ContextKey key, Class<T> type) {
         Objects.requireNonNull(key, "key");
         Object v = store.get(key);
@@ -44,5 +33,5 @@ public class ScenarioContext {
 
     public void remove(ContextKey key) { store.remove(key); }
 
-    public void clear() { store.clear(); }
+    public void clear() { store.clear(); }//hooks
 }
