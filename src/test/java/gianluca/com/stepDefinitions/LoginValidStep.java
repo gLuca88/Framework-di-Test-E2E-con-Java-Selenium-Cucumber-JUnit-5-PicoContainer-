@@ -24,8 +24,7 @@ public class LoginValidStep extends BaseStepDefinition {
 
 	private static final Logger logger = LogManager.getLogger(LoginValidStep.class);
 
-	private HomePage home;
-	private LoginPage login;
+
 	private LoginData user;
 
 	public LoginValidStep(TestContext context) {
@@ -39,28 +38,25 @@ public class LoginValidStep extends BaseStepDefinition {
 		}
 		return user; // dalle chiamate successive ritorna sempre la stessa istanza
 	}
-	
 
 	private HomePage hp() {
-		if (home == null)
-			home = context.getHomePage();
-		if (home == null)
+		HomePage h = context.getHomePage();
+		if (h == null)
 			throw new IllegalStateException("HomePage non inizializzata. Controlla il Background/Given.");
-		return home;
+		return h;
 	}
 
 	private LoginPage lp() {
-		if (login == null)
-			login = context.getLoginPage();
-		if (login == null)
+		LoginPage l = context.getLoginPage();
+		if (l == null)
 			throw new IllegalStateException("LoginPage non presente. Esegui prima il click su Signup/Login.");
-		return login;
+		return l;
 	}
 
 	@Given("the user opens the browser and navigates to the homepage")
 	public void goTheHome() {
 		logger.info("Navigating to homepage...");
-		home = context.goToHomePage(); // salva anche nel context
+		HomePage home = context.goToHomePage(); // salva home nel context
 		logger.debug("Homepage loaded, attempting to accept cookie banner if present...");
 		home.clickAccept();
 	}
@@ -68,8 +64,8 @@ public class LoginValidStep extends BaseStepDefinition {
 	@When("the user clicks on the signup_login button")
 	public void clickLoginButton() {
 		logger.info("Clicking on the Signup/Login button...");
-		login = hp().clickButtonLogin();
-		context.setLoginPage(login); // tieni sincronizzato il TestContext
+		LoginPage login = hp().clickButtonLogin(); 
+		context.setLoginPage(login); // tieni sincronizzato login nel  TestContext
 	}
 
 	@And("the user enters valid email and password and clicks the login button")

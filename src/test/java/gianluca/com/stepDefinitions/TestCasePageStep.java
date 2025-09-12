@@ -1,6 +1,5 @@
 package gianluca.com.stepDefinitions;
 
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,8 +15,6 @@ import io.cucumber.java.en.When;
 public class TestCasePageStep extends BaseStepDefinition {
 	private static final Logger log = LogManager.getLogger(TestCasePageStep.class);
 
-	private HomePage home;
-
 	private TestCasePage testCasePage;
 
 	public TestCasePageStep(TestContext context) {
@@ -29,11 +26,16 @@ public class TestCasePageStep extends BaseStepDefinition {
 	// then the home page should be visible successfully esiste gia
 
 	private HomePage hp() {
-		if (home == null)
-			home = context.getHomePage();
-		if (home == null)
+		HomePage h = context.getHomePage();
+		if (h == null)
 			throw new IllegalStateException("HomePage non inizializzata. Controlla il Background/Given.");
-		return home;
+		return h;
+	}
+
+	private TestCasePage tp() {
+		if (testCasePage == null)
+			throw new IllegalStateException("TestCasePage non inizializzata. Clicca prima su 'Test Cases'.");
+		return testCasePage;
 	}
 
 	@When("I click on the button test cases")
@@ -45,12 +47,12 @@ public class TestCasePageStep extends BaseStepDefinition {
 
 	@Then("I should be redirected to the {string} page successfully")
 	public void verifyTestCasePage(String titlePage) {
-		String titleExtracted = testCasePage.getTextTitle();
+		String titleExtracted = tp().getTextTitle();
 		log.info("verify that the user is on the page test Cases TITLE PAGE:{}  TITLE EXTRACTED: {}", titlePage,
 				titleExtracted);
-		boolean ver=titlePage.equalsIgnoreCase(titleExtracted);
+		boolean ver = titlePage.equalsIgnoreCase(titleExtracted);
 		assertTrue(ver, "the title not is equals: test failed");
-		log.info("RESULT VERIFY: {}",ver);
+		log.info("RESULT VERIFY: {}", ver);
 
 	}
 

@@ -25,6 +25,7 @@ public class HomePage extends SeleniumWrapper {
 	private final By continueAfterDelete = UiLocators.Common.BUTTON_CONTINUE;
 	private final By buttonContactUs = By.xpath("//a[@href='/contact_us']");
 	private final By buttonPageTestCase = By.xpath("//a[contains(normalize-space(.), 'Test Cas')]");
+	private final By buttonProducts = By.xpath("//a[contains(normalize-space(.),' Products')]");
 
 	public HomePage navigateHomePage() {
 		navigateTo(url);
@@ -32,12 +33,10 @@ public class HomePage extends SeleniumWrapper {
 	}
 
 	public LoginPage clickButtonLogin() {
-		LoginPage login = new LoginPage(getDriver());
-		if (isElementVisibleAndClickable(buttonLogin)) {
-			click(buttonLogin);
-		}
 
-		return login;
+		click(buttonLogin);
+
+		return new LoginPage(getDriver());
 	}
 
 	public boolean verifyButtonLogOut() {
@@ -94,5 +93,11 @@ public class HomePage extends SeleniumWrapper {
 		click(buttonPageTestCase);
 		TestCasePage tscPage = new TestCasePage(getDriver());
 		return tscPage;
+	}
+
+	public AllProductsPage clickProducts() {
+		AllProductsPage products = new AllProductsPage(getDriver());
+		click(buttonProducts);
+		return products;
 	}
 }

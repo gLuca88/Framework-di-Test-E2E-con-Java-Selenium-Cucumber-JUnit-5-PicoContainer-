@@ -20,13 +20,28 @@ import io.cucumber.java.en.When;
 public class ContactUsFormSubmissionStep extends BaseStepDefinition {
 
 	private static final Logger log = LogManager.getLogger(ContactUsFormSubmissionStep.class);
-	private HomePage home;
 	private PageContacts contacts;
 	private ContactData datiContacts;
 
 	public ContactUsFormSubmissionStep(TestContext context) {
 		super(context);
 
+	}
+
+	private HomePage hp() {
+		HomePage h = context.getHomePage();
+		if (h == null) {
+			throw new IllegalStateException(
+					"HomePage non inizializzata. Assicurati di aver navigato alla home nel Given.");
+		}
+		return h;
+	}
+
+	private PageContacts cp() {
+		if (contacts == null) {
+			throw new IllegalStateException("ContactUs page non inizializzata. Esegui prima il click su 'Contact Us'.");
+		}
+		return contacts;
 	}
 
 	private ContactData datiJSON() {
@@ -42,17 +57,17 @@ public class ContactUsFormSubmissionStep extends BaseStepDefinition {
 	@When("I click on Contact Us")
 	public void clickContactUs() {
 		log.info("[ContactUs] Clicking on 'Contact Us' button");
-		home = context.getHomePage();
-		contacts = home.clickContactUs();
+		contacts = hp().clickContactUs();
 		log.info("[ContactUs] User is redirected to the Contact Us page");
 	}
 
 	@Then("GET IN TOUCH is visible")
 	public void verifyThatMexIsVisible() {
-		datiContacts = datiJSON();
+		ContactData datiContacts = datiJSON();
 		log.info("[ContactUs] Extracting header text from Contact Us page...");
-		String mexExtracted = contacts.getTextContainerMexForm();
-		 log.info("[ContactUs] Message extracted: '{}' | Expected: '{}'", mexExtracted, datiContacts.getMessageExpected());
+		String mexExtracted = cp().getTextContainerMexForm();
+		log.info("[ContactUs] Message extracted: '{}' | Expected: '{}'", mexExtracted,
+				datiContacts.getMessageExpected());
 		System.out.println(mexExtracted);
 		assertNotNull(mexExtracted, "❌ Il messaggio estratto è null, impossibile confrontare!");
 		assertEquals(datiContacts.getMessageExpected().toLowerCase(), mexExtracted.toLowerCase(),
@@ -61,38 +76,41 @@ public class ContactUsFormSubmissionStep extends BaseStepDefinition {
 
 	@When("I enter name name, email , subject , and message")
 	public void insertNameEmailSubject() {
-		log.info("[ContactUs] Inserting data -> Name: '{}', Email: '{}', Subject: '{}', Message: '{}'", datiContacts.getName(),
-				datiContacts.getEmail(), datiContacts.getSubject(), datiContacts.getMessage());
-		contacts.contactDataEntry(datiContacts.getName(), datiContacts.getEmail(), datiContacts.getSubject(),
+		ContactData datiContacts = datiJSON();
+		log.info("[ContactUs] Inserting data -> Name: '{}', Email: '{}', Subject: '{}', Message: '{}'",
+				datiContacts.getName(), datiContacts.getEmail(), datiContacts.getSubject(), datiContacts.getMessage());
+		cp().contactDataEntry(datiContacts.getName(), datiContacts.getEmail(), datiContacts.getSubject(),
 				datiContacts.getMessage());
 
 	}
 
 	@And("I upload the file filePath")
 	public void insertFilePath() {
+		ContactData datiContacts = datiJSON();
 		log.info("[ContactUs] Uploading file: {}", datiContacts.getFilePath());
 		String absolute = FilePathUtils.toAbsolutePath(datiContacts.getFilePath());
 		log.info("[ContactUs] Absolute path resolved: {}", absolute);
-		contacts.insertPathFile(absolute);
+		cp().insertPathFile(absolute);
 	}
 
 	@And("I click Submit")
-	public void clickSubMit(){
+	public void clickSubMit() {
 		log.info("[ContactUs] Clicking on 'Submit' button...");
-		contacts.clickSubMitButton();
+		cp().clickSubMitButton();
 
 	}
 
 	@And("I accept the confirmation dialog")
 	public void acceptAlert() {
 		log.info("[ContactUs] Accepting confirmation alert...");
-		contacts.acceptAlert();
+		cp().acceptAlert();
 	}
 
 	@Then("the success message Success! Your details have been submitted successfully. is visible")
 	public void verifyTheMassageConfirm() {
+		ContactData datiContacts = datiJSON();
 		log.info("[ContactUs] Verifying success message after form submission...");
-		String messageExtracted = contacts.textMessageSuccess();
+		String messageExtracted = cp().textMessageSuccess();
 		log.info("[ContactUs] Message extracted: '{}' | Expected: '{}'", messageExtracted,
 				datiContacts.getMessageExpectedAfetrConfirm());
 		assertNotNull(messageExtracted, "❌ Extracted message is null, cannot compare!");
@@ -103,7 +121,7 @@ public class ContactUsFormSubmissionStep extends BaseStepDefinition {
 	@When("I click on Home")
 	public void clickHome() {
 		log.info("[ContactUs] Clicking on 'Home' button...");
-		contacts.clickHome();
+		cp().clickHome();
 	}
 
 	// verifica home signupexisitingstep

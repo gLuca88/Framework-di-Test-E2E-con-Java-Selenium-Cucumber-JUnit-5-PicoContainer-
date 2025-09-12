@@ -28,8 +28,7 @@ public class RegistrazioneEliminazionetStep extends BaseStepDefinition {
 		super(context);
 	}
 
-	private HomePage homePage;
-	private LoginPage login;
+	
 	private RegisterPage registrationPage; // ipotizzo il nome della pagina di registrazione
 
 	// CACHE per lo scenario
@@ -50,21 +49,22 @@ public class RegistrazioneEliminazionetStep extends BaseStepDefinition {
 		return ui;
 	}
 
-	private HomePage hp() {
-		if (homePage == null)
-			homePage = context.getHomePage();
-		if (homePage == null)
-			throw new IllegalStateException("HomePage not initialized. Check Given/Background.");
-		return homePage;
-	}
+	 private HomePage hp() {
+	        HomePage h = context.getHomePage();
+	        if (h == null) throw new IllegalStateException("HomePage not initialized. Check Given/Background.");
+	        return h;
+	    }
 
-	private LoginPage lp() {
-		if (login == null)
-			login = context.getLoginPage();
-		if (login == null)
-			throw new IllegalStateException("LoginPage not available. Click Signup/Login first.");
-		return login;
-	}
+	 private LoginPage lp() {
+	        LoginPage l = context.getLoginPage();
+	        if (l == null) throw new IllegalStateException("LoginPage not available. Click Signup/Login first.");
+	        return l;
+	    }
+	 private RegisterPage rp() {
+	        if (registrationPage == null)
+	            throw new IllegalStateException("RegistrationPage not initialized. Click 'Register' first.");
+	        return registrationPage;
+	    }
 
 	@Then("the home page must be correctly visible")
 	public void verifyThePresenceOfHomePage() {
@@ -97,23 +97,23 @@ public class RegistrazioneEliminazionetStep extends BaseStepDefinition {
 	@Then("the text ENTER ACCOUNT INFORMATION must be visible")
 	public void verifyTheMassageEnterAccount() {
 		logger.info("Verify section title: '{}'", ui().getEnterAccountInformationTitle());
-		boolean ok = registrationPage.verifyTextContainerRegistration(ui().getEnterAccountInformationTitle());
+		boolean ok = rp().verifyTextContainerRegistration(ui().getEnterAccountInformationTitle());
 		assertTrue(ok, "'ENTER ACCOUNT INFORMATION' not visible or wrong");
 	}
 
 	@When("the user enters the account data")
 	public void insertDataAccount() {
 		logger.info("Fill account data + birth date");
-		registrationPage.insertAccountDataPartOne(reg().getName(), reg().getPassword());
+		rp().insertAccountDataPartOne(reg().getName(), reg().getPassword());
 		BirthDate b = reg().getBirthDate();
-		registrationPage.insertData(b.getDay(), b.getMonth(), b.getYear());
+		rp().insertData(b.getDay(), b.getMonth(), b.getYear());
 	}
 
 	@And("select the Subscribe to our newsletter! checkbox")
 	public void clickNewSletter() {
 		if (reg().getPreferences() != null && reg().getPreferences().isSubscribeNewsletter()) {
 			logger.info("Select 'Subscribe to our newsletter!'");
-			registrationPage.clickNewSletter();
+			rp().clickNewSletter();
 		} else {
 			logger.info("Preference subscribeNewsletter=false: skip checkbox");
 		}
@@ -123,7 +123,7 @@ public class RegistrazioneEliminazionetStep extends BaseStepDefinition {
 	public void clickNewReceiveOffers() {
 		if (reg().getPreferences() != null && reg().getPreferences().isReceiveOffers()) {
 			logger.info("Select 'Receive special offers from our partners!'");
-			registrationPage.clickRiceverOffert();
+			rp().clickRiceverOffert();
 		} else {
 			logger.info("Preference receiveOffers=false: skip checkbox");
 		}
@@ -133,20 +133,20 @@ public class RegistrazioneEliminazionetStep extends BaseStepDefinition {
 	public void insertAddressData() {
 		logger.info("Fill address data");
 		Address a = reg().getAddress();
-		registrationPage.insertAddressData(a.getFirstName(), a.getLastName(), a.getCompany(), a.getAddress1(),
+		rp().insertAddressData(a.getFirstName(), a.getLastName(), a.getCompany(), a.getAddress1(),
 				a.getAddress2(), a.getCountry(), a.getState(), a.getCity(), a.getZip(), a.getPhone());
 	}
 
 	@And("the user clicks on the Create Account button")
 	public void clickButtonCreateAccount() {
 		logger.info("Click 'CREATE ACCOUNT'");
-		registrationPage.clickCreateAccount();
+		rp().clickCreateAccount();
 	}
 
 	@Then("the text ACCOUNT CREATED! must be visible")
 	public void verifyMexAccountCreated() {
 		logger.info("Verify 'ACCOUNT CREATED!': expected='{}'", ui().getAccountCreatedMessage());
-		String actual = registrationPage.verifiyMexCreatedAccount(ui().getAccountCreatedMessage());
+		String actual = rp().verifiyMexCreatedAccount(ui().getAccountCreatedMessage());
 		assertTrue(actual != null && actual.equalsIgnoreCase(ui().getAccountCreatedMessage()),
 				"Account creation message mismatch");
 	}
@@ -154,7 +154,7 @@ public class RegistrazioneEliminazionetStep extends BaseStepDefinition {
 	@When("the user clicks the Continue button")
 	public void clickContinueButtonAfterRegister() {
 		logger.info("Click 'Continue' after registration");
-		registrationPage.clickButtonContinueAfterRegistrer();
+		rp().clickButtonContinueAfterRegistrer();
 	}
 
 	@Then("You are logged in with your username should be visible")

@@ -11,13 +11,13 @@ public class LoginPage extends SeleniumWrapper {
 		super(driver);
 	}
 
-	private By inputEmail = By.xpath("//div[@class='login-form']//input[@name='email']");
-	private By inputPassword = By.xpath("//div[@class='login-form']//input[@name='password']");
-	private By loginButton = By.xpath("//div[@class='login-form']//button[@class='btn btn-default']");
+	private By inputEmail = By.cssSelector("[data-qa='login-email']");
+	private By inputPassword = By.cssSelector("[data-qa='login-password']");
+	private By loginButton = By.cssSelector("[data-qa='login-button']");
 	private By containerMexError = By.cssSelector("div.login-form p");
 	private By contanerMexRegisterUser = By.cssSelector(".signup-form h2");
-	private By inputNameRegister = By.xpath("//div[@class='signup-form']//input[@name='name']");
-	private By inputEmailRegister = By.xpath("//div[@class='signup-form']//input[@name='email']");
+	private By inputNameRegister = By.cssSelector("[data-qa='signup-name']");
+	private By inputEmailRegister = By.cssSelector("[data-qa='signup-email']");
 	private By buttonRegister = By.cssSelector(".signup-form button");
 	private By mexErrorRegister = By.cssSelector("div.signup-form p");
 
@@ -50,9 +50,9 @@ public class LoginPage extends SeleniumWrapper {
 	}
 
 	public RegisterPage clickRegisterSubmit() {
-		RegisterPage registration = new RegisterPage(getDriver());
+
 		click(buttonRegister);
-		return registration;
+		return new RegisterPage(getDriver());
 	}
 
 	public String getTextMexErrorRegister() {

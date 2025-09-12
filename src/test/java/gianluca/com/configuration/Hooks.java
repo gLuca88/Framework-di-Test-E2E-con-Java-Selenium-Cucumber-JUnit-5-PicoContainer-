@@ -37,14 +37,13 @@ public class Hooks extends BaseStepDefinition {
 		super(context);
 	}
 
-	// SUITE
+	// ===== SUITE =====
 	@BeforeAll
 	public static void beforeAll() throws Exception {
 		Files.createDirectories(PathManager.baseDir());
 		Files.createDirectories(PathManager.logsDir());
 		Files.createDirectories(PathManager.screenshotsDir());
 
-		// Configura log su file
 		LogConfigurator.addRunFileAppender(PathManager.logsDir());
 
 		ReportManager.init();
@@ -57,14 +56,16 @@ public class Hooks extends BaseStepDefinition {
 		log.info("==> Suite chiusa. Report scritto su: {}", PathManager.reportHtml());
 	}
 
-	// scenario
+	// ===== SCENARIO =====
 	@Before(order = 0)
 	public void setUp(Scenario scenario) {
 		log.info("[Before Scenario] Avvio browser per: {}", scenario.getName());
 
 		String browser = ConfigReader.getBrowser();
+
+		// crea e registra il driver nel ThreadLocal della factory
 		WebDriver driver = WebDriverFactory.createBrowser(browser);
-		driver.manage().window().maximize();
+
 		context.setDriver(driver);
 
 		String testName = safeName(scenario.getName());
@@ -74,25 +75,33 @@ public class Hooks extends BaseStepDefinition {
 		ReportManager.test().log(Status.INFO, "Scenario started: " + scenario.getName());
 		ReportManager.test().log(Status.INFO, "Browser: " + browser);
 
-		// Link relativo ai log
 		ReportManager.test().info("📜 Log run: <a href='logs/execution.log' target='_blank'>apri</a>");
 	}
 
 	@After(order = 0)
 	public void tearDown(Scenario scenario) {
-		WebDriver driver = context.getDriver();
+		// recupera SEMPRE il driver dal ThreadLocal della factory
+		WebDriver driver = null;
 		try {
-			if (scenario.isFailed()) {
+			driver = WebDriverFactory.getDriver();
+		} catch (Exception e) {
+			log.warn("Driver non disponibile nel ThreadLocal in teardown: {}", e.getMessage());
+		}
+
+		try {
+			if (scenario.isFailed() && driver != null) {
 				Path dir = PathManager.scenarioDir(safeName(scenario.getName()));
 				String shotName = "FAIL_" + now();
-				ScreenshotManager.take(driver, dir, shotName); // salviamo su disco
 
-				// Screenshot in BASE64 per Extent
+				// screenshot su disco
+				ScreenshotManager.take(driver, dir, shotName);
+
+				// screenshot su report (base64)
 				String b64 = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
 				ReportManager.test().fail("Scenario FAILED: " + scenario.getName())
 						.addScreenCaptureFromBase64String(b64, shotName);
 
-				// Screenshot anche in Cucumber
+				// screenshot anche per Cucumber
 				byte[] png = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 				scenario.attach(png, "image/png", shotName + ".png");
 
@@ -105,14 +114,26 @@ public class Hooks extends BaseStepDefinition {
 			ReportManager.test().warning("Errore teardown/allegato screenshot: " + e.getMessage());
 			log.warn("Problema in tearDown per {}: {}", scenario.getName(), e.getMessage());
 		} finally {
+			// pulizia dati scenario
+			try {
+				context.getScenarioContext().clear();
+			} catch (Exception ignored) {
+			}
 
-			context.getScenarioContext().clear();
-			ReportManager.endTest();
-			if (driver != null)
-				driver.quit();
-			log.info("[After Scenario] Chiudo browser per: {}", scenario.getName());
+			// chiude test nel report (non fare flush qui)
+			try {
+				ReportManager.endTest();
+			} catch (Exception ignored) {
+			}
+
+			// CHIUSURA BROWSER: usa la factory (ThreadLocal-safe)
+			try {
+				WebDriverFactory.quitDriver();
+			} catch (Exception ignored) {
+			}
+
+			log.info("[After Scenario] Browser chiuso per: {}", scenario.getName());
 		}
-
 	}
 
 	@BeforeStep
@@ -132,5 +153,4 @@ public class Hooks extends BaseStepDefinition {
 	private static String now() {
 		return LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmmss_SSS"));
 	}
-
 }
