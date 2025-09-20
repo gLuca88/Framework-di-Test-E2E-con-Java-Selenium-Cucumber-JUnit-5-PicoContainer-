@@ -91,13 +91,11 @@ public class HomePage extends SeleniumWrapper {
 
 	public TestCasePage clickPageTestCase() {
 		click(buttonPageTestCase);
-		TestCasePage tscPage = new TestCasePage(getDriver());
-		return tscPage;
+		return new TestCasePage(getDriver());
 	}
 
-	public AllProductsPage clickProducts() {
-		AllProductsPage products = new AllProductsPage(getDriver());
+	public AllProductsPage clickButtonProducts() {
 		click(buttonProducts);
-		return products;
+		return new AllProductsPage(getDriver());
 	}
 }

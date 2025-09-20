@@ -4,8 +4,8 @@ import java.util.List;
 
 import gianluca.com.configuration.ContextKey;
 import gianluca.com.configuration.TestContext;
-import gianluca.com.model.TestRegistrerDelete.RegistrationData;
-import gianluca.com.model.TestRegistrerDelete.RegistrationUiText;
+import gianluca.com.model.testRegistrerDelete.RegistrationData;
+import gianluca.com.model.testRegistrerDelete.RegistrationUiText;
 import gianluca.com.ConfigReader;
 import gianluca.com.utilis.JsonReader;
 import io.cucumber.java.Before;

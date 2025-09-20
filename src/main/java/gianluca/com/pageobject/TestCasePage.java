@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import gianluca.com.SeleniumWrapper;
+import gianluca.com.UiLocators;
 
 public class TestCasePage extends SeleniumWrapper {
 
@@ -11,11 +12,15 @@ public class TestCasePage extends SeleniumWrapper {
 		super(driver);
 	}
 
-	private By titlePage = By.cssSelector(".title");
+	private By titlePage = UiLocators.Common.CONTAINER_TITLE_ALLPRODUCTS_TESTCASES_page;
 
 	public String getTextTitle() {
 
 		return getText(titlePage);
+	}
+
+	public String urlPage() {
+		return getCurrentUrl();
 	}
 
 }

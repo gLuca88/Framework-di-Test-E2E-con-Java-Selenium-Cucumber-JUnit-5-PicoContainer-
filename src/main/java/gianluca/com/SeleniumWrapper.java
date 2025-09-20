@@ -49,12 +49,6 @@ public class SeleniumWrapper {
 		return driver.getTitle();
 	}
 
-	public void quit() {
-		if (driver != null) {
-			driver.quit();
-		}
-	}
-
 	public WebDriver getDriver() {
 		return driver;
 	}
@@ -103,13 +97,6 @@ public class SeleniumWrapper {
 		return driver.getCurrentUrl();
 	}
 
-	public String extractTextElement(By ele) {
-
-		WebElement el = waitForElementToBeVisible(ele);
-		return el.getText();
-
-	}
-
 	public void scrollIntoView(WebDriver driver, WebElement element) {
 		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center', inline:'nearest'});",
 				element);
@@ -127,6 +114,10 @@ public class SeleniumWrapper {
 		Alert alert = wait.until(ExpectedConditions.alertIsPresent());
 		System.out.println("Alert text: " + alert.getText());
 		alert.accept();
+	}
+
+	public String getCurrentUrl() {
+		return driver.getCurrentUrl();
 	}
 
 }

@@ -80,11 +80,12 @@ public class WebDriverFactory {
     // chiude e pulisce il ThreadLocal
     public static void quitDriver() {
         WebDriver d = TL_DRIVER.get();
-        if (d != null) {
-            try {
-                d.quit();
-            } catch (Exception ignored) {}
-            TL_DRIVER.remove();
+        try {
+            if (d != null) d.quit();
+        } catch (Throwable t) {
+            // logga ma non interrompere il teardown
+        } finally {
+        	TL_DRIVER.remove();
         }
     }
 }

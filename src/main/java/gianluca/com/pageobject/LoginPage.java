@@ -29,7 +29,7 @@ public class LoginPage extends SeleniumWrapper {
 
 	public boolean verifyMexError(String mex) {
 
-		return mex.equals(extractTextElement(containerMexError));
+		return mex.equals(getText(containerMexError));
 	}
 
 	public String getUrlLogin() {

@@ -20,6 +20,22 @@ public class JsonReader {
 		}
 	}
 
+	public static <T> T readObject(String file, Class<T> clazz) {
+
+		try (InputStream is = getResource(file)) {
+
+			if (is != null) {
+				return MAPPER.readValue(is, clazz);
+			} else {
+				throw new RuntimeException(file + ": conversione non riuscita");
+			}
+
+		} catch (Exception e) {
+			throw new RuntimeException("file non trivato al path: " + file);
+		}
+
+	}
+
 	private static InputStream getResource(String jsonClasspathPath) {
 		InputStream is = JsonReader.class.getClassLoader().getResourceAsStream(jsonClasspathPath);
 		if (is == null) {
@@ -27,4 +43,5 @@ public class JsonReader {
 		}
 		return is;
 	}
+
 }

@@ -6,7 +6,7 @@ Background:
     Given the browser is launched
     And I navigate to http_automationexercise_com
     Then the home page should be visible successfully
-
+@smoke
 Scenario: Registration, automatic login and account deletion
     When the user clicks on the signup_login button
     Then The text Register new user! must be visible

@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import gianluca.com.configuration.BaseStepDefinition;
 import gianluca.com.configuration.ContextKey;
 import gianluca.com.configuration.TestContext;
-import gianluca.com.model.TestContacts.ContactData;
+import gianluca.com.model.testContacts.ContactData;
 import gianluca.com.pageobject.HomePage;
 import gianluca.com.pageobject.PageContacts;
 import gianluca.com.utilis.FilePathUtils;

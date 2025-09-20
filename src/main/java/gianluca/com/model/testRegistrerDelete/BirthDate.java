@@ -1,4 +1,4 @@
-package gianluca.com.model.TestRegistrerDelete;
+package gianluca.com.model.testRegistrerDelete;
 
 public class BirthDate {
 

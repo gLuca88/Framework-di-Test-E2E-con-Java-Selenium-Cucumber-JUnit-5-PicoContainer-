@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import gianluca.com.configuration.BaseStepDefinition;
 import gianluca.com.configuration.ContextKey;
 import gianluca.com.configuration.TestContext;
-import gianluca.com.model.TestRegistrerDelete.SignupData;
+import gianluca.com.model.testRegistrerDelete.SignupData;
 import gianluca.com.pageobject.HomePage;
 import gianluca.com.pageobject.LoginPage;
 import io.cucumber.java.en.And;

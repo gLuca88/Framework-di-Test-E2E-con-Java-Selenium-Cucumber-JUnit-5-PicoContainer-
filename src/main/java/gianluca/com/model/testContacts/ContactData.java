@@ -1,4 +1,4 @@
-package gianluca.com.model.TestContacts;
+package gianluca.com.model.testContacts;
 
 public class ContactData {
 	private String messageExpected;

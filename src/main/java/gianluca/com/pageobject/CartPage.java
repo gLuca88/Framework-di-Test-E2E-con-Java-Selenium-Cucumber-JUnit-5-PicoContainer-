@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 
 import gianluca.com.SeleniumWrapper;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,13 +41,11 @@ public class CartPage extends SeleniumWrapper {
 		return getDriver().findElements(liDeliveryAddress); // se non trova, restituisce []
 	}
 
-
 	public PaymentPage confirmOrder() {
 		WebElement el = waitForElementToBeVisible(buttonPlaceHorder);
 		scrollIntoView(getDriver(), el);
-		PaymentPage payPage = new PaymentPage(getDriver());
 		el.click();
-		return payPage;
+		return new PaymentPage(getDriver());
 	}
 
 }

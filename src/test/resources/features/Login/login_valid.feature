@@ -5,7 +5,7 @@ Feature: Login with valid credentials
     Given the user opens the browser and navigates to the homepage
     When the user clicks on the signup_login button
 
-  @login
+  @login @smoke
   Scenario: User logs in with the correct email and password
     And the user enters valid email and password and clicks the login button
     Then  the user should see the logout button and delete account button
@@ -22,7 +22,7 @@ Feature: Login with valid credentials
       | automationtest@mail.com     | 123                        | Your email or password is incorrect! |
       | automationtes@mail.com      | unoduetrequattrocinquesei@ | Your email or password is incorrect! |
 
-  @login
+  @login @smoke
   Scenario: User logs out successfully
     And the user enters valid email and password and clicks the login button
     And the user clicks on the logout button

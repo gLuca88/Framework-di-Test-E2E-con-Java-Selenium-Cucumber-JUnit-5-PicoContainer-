@@ -45,15 +45,20 @@ public class TestCasePageStep extends BaseStepDefinition {
 		testCasePage = hp().clickPageTestCase();
 	}
 
-	@Then("I should be redirected to the {string} page successfully")
-	public void verifyTestCasePage(String titlePage) {
+	@Then("I should be redirected to the {string} page successfully and {string} is correct")
+	public void verifyTestCasePage(String titlePage,String url) {
 		String titleExtracted = tp().getTextTitle();
+		String urlExtracted=tp().getCurrentUrl();
+		log.info("verify url page URL EXPECTED:{}  TITLE EXTRACTED: {}", url,
+				urlExtracted);
 		log.info("verify that the user is on the page test Cases TITLE PAGE:{}  TITLE EXTRACTED: {}", titlePage,
 				titleExtracted);
-		boolean ver = titlePage.equalsIgnoreCase(titleExtracted);
-		assertTrue(ver, "the title not is equals: test failed");
-		log.info("RESULT VERIFY: {}", ver);
-
+		boolean verUrl=url.equalsIgnoreCase(urlExtracted);
+		boolean verTitle = titlePage.equalsIgnoreCase(titleExtracted);
+		assertTrue(verUrl, "the title not is equals: test failed");
+		assertTrue(verTitle, "the url not is equals: test failed");
+		log.info("RESULT VERIFY URL: {}", verUrl);
+		log.info("RESULT VERIFY TITLE: {}", verTitle);
 	}
 
 }
